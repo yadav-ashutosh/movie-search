@@ -1,4 +1,4 @@
-const apiKey = "ea66732"; // Replace "xyz" with your OMDB API key
+const apiKey = "ea66732";
 const searchButton = document.getElementById("searchButton");
 const searchInput = document.getElementById("searchInput");
 const movieList = document.getElementById("movieList");
@@ -6,31 +6,51 @@ const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modalContent");
 const closeModalButton = document.getElementById("closeModalButton");
 
+const itemsPerPage = 3;
+let currentPage = 1;
+
 function displayMovies(movies) {
   movieList.innerHTML = "";
 
-  movies.forEach(movie => {
-    const listItem = document.createElement("li");
-    
-    // Create an image element for the poster
+    // the start and end index for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  movies.slice(startIndex, endIndex).forEach(movie => {
+
+    const movieItemContainer = document.createElement("div");
+    movieItemContainer.classList.add("movie-item"); 
+
+
+    // Poster
     const posterImg = document.createElement("img");
-    posterImg.src = movie.Poster !== "N/A" ? movie.Poster : "placeholder.png"; // Use a placeholder image if no poster available
+    posterImg.src = movie.Poster !== "N/A" ? movie.Poster : "placeholder.png"; 
     posterImg.alt = `${movie.Title} Poster`;
     posterImg.classList.add("poster");
-    listItem.appendChild(posterImg);
+    movieItemContainer.appendChild(posterImg);
 
-    // Create a span element for the movie title
+    // Movie Details Container
+    const movieDetailsContainer = document.createElement("div");
+    movieDetailsContainer.classList.add("movie-details");
+
+    // Title
     const titleSpan = document.createElement("span");
     titleSpan.textContent = movie.Title;
-    listItem.appendChild(titleSpan);
+    titleSpan.classList.add("movie-title");
+    movieDetailsContainer.appendChild(titleSpan);
 
-    listItem.addEventListener("click", () => {
-      // You can perform additional actions when a movie is clicked
-      console.log("Clicked movie:", movie);
-    });
+    // Year
+    const yearSpan = document.createElement("span");
+    yearSpan.textContent = `(${movie.Year})`;
+    yearSpan.classList.add("movie-year");
+    movieDetailsContainer.appendChild(yearSpan);
 
-    movieList.appendChild(listItem);
+    movieItemContainer.appendChild(movieDetailsContainer);
+
+    movieList.appendChild(movieItemContainer);
   });
+  prevPageButton.disabled = currentPage === 1;
+  nextPageButton.disabled = endIndex >= movies.length;
 }
 
 async function searchMovies() {
@@ -78,3 +98,23 @@ movieList.addEventListener("click", event => {
     }
   }
 });
+
+function goToPreviousPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    displayMovies(searchHistory);
+  }
+}
+
+function goToNextPage() {
+  const totalPages = Math.ceil(searchHistory.length / itemsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    displayMovies(searchHistory);
+  }
+}
+const prevPageButton = document.getElementById("prevPageButton");
+const nextPageButton = document.getElementById("nextPageButton");
+
+prevPageButton.addEventListener("click", goToPreviousPage);
+nextPageButton.addEventListener("click", goToNextPage);

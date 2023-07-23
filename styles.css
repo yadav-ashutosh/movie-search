@@ -11,16 +11,6 @@ body {
   border: 1px solid #ccc;
 }
 
-h1 {
-  text-align: center;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
 button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -45,4 +35,79 @@ li {
 
 li:hover {
   text-decoration: underline;
+}
+
+
+h1 {
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+
+.movie-list-container {
+  /* Add styles for the movie list container here */
+}
+
+.movie-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.movie-item:hover {
+  background-color: #f0f0f0;
+}
+
+.poster {
+  width: 100px;
+  height: 150px;
+  margin-right: 10px;
+}
+
+.movie-details {
+  flex: 1;
+}
+
+.movie-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.movie-year {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ... (previous styles) */
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+/* Disable the button when it's not usable */
+.pagination button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
